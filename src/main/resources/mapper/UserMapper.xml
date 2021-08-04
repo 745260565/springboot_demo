@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xkw.itest.mapper.UserMapper">
+
+    <sql id="columns">id, name, password, avatar, nick_name, address, phone, create_time</sql>
+
+    <sql id="values">#{id}, #{name}, #{password}, #{avatar}, #{nickName}, #{address}, #{phone}, #{createTime}</sql>
+
+    <sql id="table">user</sql>
+
+    <select id="getInfo" parameterType="String" resultType="com.xkw.itest.bean.UserBean">
+        SELECT * FROM user WHERE name = #{name} AND password = #{password}
+    </select>
+
+    <select id="getUserByPhone" parameterType="String" resultType="com.xkw.itest.bean.UserBean">
+        SELECT * FROM user WHERE phone = #{phone}
+    </select>
+
+    <insert id="insert" parameterType="com.xkw.itest.bean.UserBean" >
+        insert into <include refid="table"/>(<include refid="columns"/>) VALUES (<include refid="values"/>)
+    </insert>
+
+    <update id="updateByUserPhone" parameterType="com.xkw.itest.bean.UserBean">
+        update user
+        set
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="name != null" >
+                password = #{password},
+            </if>
+            <if test="name != null" >
+                avatar = #{avatar},
+            </if>
+            <if test="name != null" >
+                nick_name = #{nickName},
+            </if>
+            <if test="name != null" >
+                address = #{address}
+            </if>
+        where phone = #{phone}
+    </update>
+
+    <delete id="deleteByPhone" parameterType="java.lang.String">
+        delete from user
+        where phone = #{phone}
+    </delete>
+
+
+
+</mapper>
